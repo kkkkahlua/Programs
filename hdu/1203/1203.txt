@@ -1,0 +1,10 @@
+:loop
+auto_1203
+time<enter
+1203
+time<enter
+12032
+time<enter
+fc 1203.out 12032.out
+if %errorlevel%==0 goto loop
+pause

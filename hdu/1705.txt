@@ -1,0 +1,39 @@
+2586
+1）数组大小 ： 边 * 2  !!!
+2）RMQ的写法
+3）存LCA的时候不要存深度，存vis到的顺序编号
+4）LL
+
+
+2063
+二分图 - 最大匹配
+1）入度出度观点(RUNTIME ERROR ACCESS VIOLATION?
+2）匈牙利算法
+http://blog.csdn.net/dark_scope/article/details/8880547
+
+
+1068
+二分图 - 最大独立集
+最大独立集 = 顶点数 - 最大匹配数
+
+
+6019
+用map离散化
+
+
+6021
+1）集合、子集、容斥原理、先选择子集再选择元素，很好的题目
+2）写之前认真考虑可行性
+http://www.7zhang.com/index/cms/read/id/296366.html
+http://blog.csdn.net/luricheng/article/details/69367452
+
+
+1690	
+1) Floyd！！！
+不能每次都去计算两点间的价钱...这样充其量中间只经过一个点。而要在初始化时一次性计算最初两点间的价钱，然后基于此去计算。（怎么会犯这样的错误呢...。）
+2) LL (输入输出
+3) 不要跟着常识走，题目没说就是没有（题目并没有说价钱随着距离增大，因此不能用dp）
+
+
+GCD
+http://blog.csdn.net/sexgeek/article/details/70504628

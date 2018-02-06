@@ -1,0 +1,6 @@
+delete t; t = null; // t = ...
+并查集 初始化时 sz = 1 !!!
+删除完节点后记得 return
+动态创建结构体指针数组的方式
+数组初始化
+treap忘了初始化赋root为null
