@@ -1,59 +1,55 @@
-#include<iostream>
 #include<cstdio>
+#include<cctype>
 #include<cstring>
-#define N 200001
+#include<algorithm>
 using namespace std;
-char ch[N];
-int a[N],n,k;
-int v[N],sa[2][N],rk[2][N];
-void ini()
-{
-     scanf("%s",ch+1);
-     n=strlen(ch+1);
-     for(int i=1;i<=n;++i)
-     {
-         a[i]=int(ch[i]);
-         a[i+n]=a[i];
-         ch[i+n]=ch[i];
-     }
-     n<<=1;
+typedef long long giant;
+int read() {
+    int x=0,f=1;
+    char c=getchar();
+    for (;!isdigit(c);c=getchar()) if (c=='-') f=-1;
+    for (;isdigit(c);c=getchar()) x=x*10+c-'0';
+    return x*f;
 }
-void calsa(int sa[N],int rk[N],int SA[N],int Rank[N])
-{
-     for(int i=1;i<=n;++i)v[rk[sa[i]]]=i;
-     for(int i=n;i>=1;--i)
-         if(sa[i]>k)
-             SA[v[rk[sa[i]-k]]--]=sa[i]-k;
-     for(int i=n-k+1;i<=n;++i)
-         SA[v[rk[i]]--]=i;
-     for(int i=1;i<=n;++i)
-         Rank[SA[i]]=Rank[SA[i-1]]+(rk[SA[i-1]]!=rk[SA[i]]||rk[SA[i-1]+k]!=rk[SA[i]+k]);
+const int maxn=1e5+1;
+const int maxj=17;
+const int q=1e9+7;
+int bin[maxn],n;
+inline int Multi(int x,int y) {return (giant)x*y%q;}
+inline int mi(int x,int y) {
+    int ret=1;
+    for (;y;y>>=1,x=Multi(x,x)) if (y&1) ret=Multi(ret,x);
+    return ret;
 }
-void work()
-{
-    int p=0,q=1;
-    for(int i=1;i<=n;++i)v[a[i]]++;
-    for(int i=1;i<=256;++i)v[i]+=v[i-1];
-    for(int i=1;i<=n;++i)
-       sa[p][v[a[i]]--]=i;
-    for(int i=1;i<=n;++i)
-        rk[p][sa[p][i]]=rk[p][sa[p][i-1]]+(a[sa[p][i]]!=a[sa[p][i-1]]);
-    k=1;
-    while(k<n)
-    {
-        calsa(sa[p],rk[p],sa[q],rk[q]);
-        p^=1;q^=1;k<<=1;
+struct SET {
+    int f[maxn];
+    void init(int n) {for (int i=1;i<=n;++i) f[i]=i;}
+    int find(int x) {return f[x]==x?x:f[x]=find(f[x]);}
+    int merge(int x,int y) {
+        int fx=find(x),fy=find(y);
+        if (fx!=fy) f[fx]=fy;
     }
-    for(int i=1;i<=n;++i)
-    {
-        if(sa[p][i]<=n/2)
-        printf("%c",ch[sa[p][i]+n/2-1]);
+} st[maxj];
+int main() {
+    freopen("in.txt","r",stdin);
+    n=read();
+    for (int i=2;i<=n;++i) bin[i]=bin[i>>1]+1;
+    for (int i=bin[n];i>=0;--i) st[i].init(n);
+    for (int m=read();m;--m) {
+        int x=read(),y=read(),l=read(),r=read(),len=r-l+1,d=bin[len];
+        st[d].merge(x,l);
+        st[d].merge(y-(1<<d)+1,r-(1<<d)+1);
     }
-}
-int main()
-{
-    freopen("in.txt", "r", stdin);
-    ini();
-    work();
+    for (int j=bin[n];j;--j) {
+        for (int i=1;i+(1<<j)-1<=n;++i) {
+            int p=st[j].find(i);
+            st[j-1].merge(i,p);
+            st[j-1].merge(i+(1<<(j-1)),p+(1<<(j-1)));
+        }
+    }
+    int cnt=0;
+    for (int i=1;i<=n;++i) cnt+=(st[0].find(i)==i);
+    int ans=Multi(9,mi(10,cnt-1));
+    printf("%d\n",ans);
     return 0;
 }

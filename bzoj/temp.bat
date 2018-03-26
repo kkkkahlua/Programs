@@ -3,8 +3,8 @@ auto
 time<enter
 temp
 time<enter
-3930
+3744
 time<enter
-fc 3930.out temp.out
+fc ans.txt out.txt
 if %errorlevel%==0 goto loop
 pause
